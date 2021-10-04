@@ -6,8 +6,9 @@ const {
     getWorkoutsInRange,
 } = require('../../controllers/workoutController');
 
-router.route('/workouts').get(getLastWorkout).post(createWorkout);
-router.route('/workouts/:id').put(addExercise);
-router.route('/workouts/range').get(getWorkoutsInRange);
+router.route('/').get(getLastWorkout);
+router.route('/').post(createWorkout);
+router.route('/:id').put(addExercise);
+router.route('/range').get(getWorkoutsInRange);
 
 module.exports = router;

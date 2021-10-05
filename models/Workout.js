@@ -1,29 +1,13 @@
 const {Schema, model} = require('mongoose');
+const {exerciseSchema} = require('./Exercise');
 
 //Schema to create Exercise model
 const workoutSchema = new Schema (
     {
-        name: {
-            type: String,
-        }, 
-        type: {
-            type: String,
-        }, 
-        weight: {
-            type: Number,
-        }, 
-        sets: {
-            type: Number,
-        }, 
-        reps: {
-            type: Number
-        }, 
-        duration: {
-            type: Number
-        }, 
-        distance: {
-            type: Number
-        }
+        day: {
+            type: Date
+        },
+        exercises: [exerciseSchema]
     }
 );
 

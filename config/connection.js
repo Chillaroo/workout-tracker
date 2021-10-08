@@ -1,7 +1,8 @@
 const { connect, connection } = require('mongoose');
 
-connect(
-  process.env.MONGO_URI || 'mongodb://localhost/workout',
+connect(  
+  process.env.MONGO_URI,
+  // || 'mongodb://localhost/workout',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

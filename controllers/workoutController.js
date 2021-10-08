@@ -1,4 +1,4 @@
-const {Workout, Exercise} = require('../models');
+const { Workout, Exercise } = require('../models');
 
 module.exports = {
     getLastWorkout(req, res) {
@@ -12,20 +12,34 @@ module.exports = {
             .catch((err) => res.status(500).json(err))
     },
     addExercise(req, res) {
-        //Exercise.create(req.body)
-        //    .then( (exercise) => {
-                //return 
-                Workout.findOneAndUpdate(
-                    { _id: req.params.id },
-                    { $push: { exercises: req.body } },
-                    { new: true }
-                )//;
-            //})
+        Workout.findOneAndUpdate(
+            { _id: req.params.id },
+            { $push: { exercises: req.body } },
+            { new: true }
+        )
             .then((newExercise) => res.json(newExercise))
             .catch((err) => res.status(500).json(err))
     },
     getWorkoutsInRange(req, res) {
-        //View the combined weight of multiple exercises from the past seven workouts on the stats page.
-        //View the total duration of each workout from the past seven workouts on the stats page.
+        //do aggregate on Workout model and then slice
+        Workout.aggregate([
+            {
+                $sort: { day: -1 }
+            },
+            {
+                $limit: 7
+            },
+            {
+                $addFields: {
+                    totalDuration: {
+                        $sum: "$exercises.duration"
+                    }
+                }
+            },
+        ])
+            .then((workouts) => {
+                return res.json(workouts);
+            })
+            .catch((err) => res.status(500).json(err));
     }
 }

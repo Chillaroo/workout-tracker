@@ -21,7 +21,6 @@ module.exports = {
             .catch((err) => res.status(500).json(err))
     },
     getWorkoutsInRange(req, res) {
-        //do aggregate on Workout model and then slice
         Workout.aggregate([
             {
                 $sort: { day: -1 }

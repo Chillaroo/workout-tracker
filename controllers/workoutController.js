@@ -2,7 +2,15 @@ const { Workout, Exercise } = require('../models');
 
 module.exports = {
     getLastWorkout(req, res) {
-        Workout.find()
+        Workout.aggregate([
+            {
+                $addFields: {
+                    totalDuration: {
+                        $sum: "$exercises.duration"
+                    }
+                }
+            },
+        ])
             .then((workouts) => res.json(workouts))
             .catch((err) => res.status(500).json(err))
     },
